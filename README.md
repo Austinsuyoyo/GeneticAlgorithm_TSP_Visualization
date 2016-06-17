@@ -4,6 +4,9 @@ Genetic Algorithms Visualization in C++
  - Visual Studio 2015
  - OpenCV 3.0
 
+#Demo
+![Imgur](http://i.imgur.com/RRXKSWx.png)
+
 ## License
 MIT License
 
