@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "GeneticAlgorithms.h"
 int(*Pathptr)[2] = oliver30;	   //選擇路徑
-								   //===================================================================================================
+//===================================================================================================
 								   //定義路徑
 typedef struct TagPathA {
 	double FitnessValue;       //適應值Z
@@ -14,7 +14,7 @@ CvFont font1, font2;
 TestPath  Population[POPULATION];      //母體
 TestPath  Pool[POPULATION];            //交配池
 TestPath  BestPath;                    //最佳路徑
-									   //===================================================================================================
+//===================================================================================================
 template <typename AnyType>
 void Swap(AnyType &n, AnyType &m)
 {
