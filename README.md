@@ -1,12 +1,8 @@
 ﻿# GeneticAlgorithm_TSP_Visualization
 Genetic Algorithms Visualization in C++
 ## Build Enviroment
-1. 第一則列表項目
-2. 另一個項目
-⋅⋅* 無序的次清單。
-1. 數字本身是否排序並不重要，通通使用相同的數字也可以。
-⋅⋅1. 排序的次清單。
-4. 另一個項目
+ - Visual Studio 2015
+ - OpenCV 3.0
 ## License
 MIT License
 
