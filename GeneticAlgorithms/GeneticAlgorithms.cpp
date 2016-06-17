@@ -2,14 +2,14 @@
 #include "GeneticAlgorithms.h"
 int(*Pathptr)[2] = oliver30;	   //選擇路徑
 //===================================================================================================
-							   //定義路徑
+								   //定義路徑
 typedef struct TagPathA {
 	double FitnessValue;       //適應值Z
 	double Length[SIZE];       //每個點的距離
 	int Coor[SIZE];            //座標順序Coordinate
 }TestPath;
 IplImage *bestimage, *upload;
-CvFont font1,font2;
+CvFont font1, font2;
 //===================================================================================================
 TestPath  Population[POPULATION];      //母體
 TestPath  Pool[POPULATION];            //交配池
@@ -38,9 +38,8 @@ void CalFitnessValue()
 // 計算距離
 void CalDistance()
 {
-	int i, j;
-	for (i = 0; i<POPULATION; i++) {
-		for (j = 0; j<SIZE - 1; j++)
+	for (int i = 0; i<POPULATION; i++) {
+		for (int j = 0; j<SIZE - 1; j++)
 			Population[i].Length[j] =
 			sqrt((double)
 				pow((double)
@@ -318,13 +317,42 @@ void UpdateBestPath(int GenerationTime) {
 		double SumLength = 0;
 		if (Population[i].FitnessValue > BestPath.FitnessValue) {
 			memcpy(&BestPath, &Population[i], sizeof(TestPath));
-			for (int j = 0; j<SIZE; j++) {
-				SumLength += BestPath.Length[j];
+			for (int j = 0; j<SIZE - 1; j++) {
+				//SumLength += BestPath.Length[j];
+				SumLength +=
+					sqrt((double)
+						pow((double)
+							Pathptr[BestPath.Coor[j + 1]][0] -		//x軸
+							Pathptr[BestPath.Coor[j]][0], 2)
+						+
+						pow((double)
+							Pathptr[BestPath.Coor[j + 1]][1] -		//y軸
+							Pathptr[BestPath.Coor[j]][1], 2)
+						);
 			}
+			SumLength +=
+				sqrt((double)							//最後一個城鎮到第一個城鎮的距離
+					pow((double)
+						Pathptr[BestPath.Coor[SIZE - 1]][0] -
+						Pathptr[BestPath.Coor[0]][0], 2)
+					+
+					pow((double)
+						Pathptr[BestPath.Coor[SIZE - 1]][1] -
+						Pathptr[BestPath.Coor[0]][1], 2)
+					);
 			cout << "第" << GenerationTime << "代";
 			cout << fixed << setprecision(10) << SumLength << endl;
 			//for(int k=0;k<30;k++) cout <<"["<< BestPath.Coor[k]+1<<"]->";  //最佳路徑顯示
 			//cout<<endl;
+
+			//Drawd  Map--------------------------------------
+			InitOpencvConfig();
+			drawBest(GenerationTime);
+			upload = cvCloneImage(bestimage);
+			cvShowImage("Path", upload);
+			cvReleaseImage(&bestimage);
+			cvReleaseImage(&upload);
+			cvWaitKey(100);
 		}
 	}
 }
@@ -335,24 +363,24 @@ void InitOpencvConfig()
 	//cvStartWindowThread();
 	//cvNamedWindow("Best", CV_WINDOW_AUTOSIZE);
 	//cvShowImage("Best Path", bestimage);
-	cvInitFont(&font1, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0,1.5,4);
+	cvInitFont(&font1, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1.5, 4);
 	cvInitFont(&font2, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
 }
 void drawBest(int generation)
 {
 	double SumLength = 0;
-	stringstream strs1, strs2,time;
+	stringstream strs1, strs2, time;
 	for (int i = 0; i<SIZE - 1; i++) {
 		time << i;
 		cvLine(bestimage, cvPoint(5 * Pathptr[BestPath.Coor[i]][0], 5 * Pathptr[BestPath.Coor[i]][1]),
 			cvPoint(5 * Pathptr[BestPath.Coor[i + 1]][0], 5 * Pathptr[BestPath.Coor[i + 1]][1]), CV_RGB(0, 0, 0), 1, CV_AA, 0);
 		cvCircle(bestimage, cvPoint(5 * Pathptr[BestPath.Coor[i]][0], 5 * Pathptr[BestPath.Coor[i]][1]), 1, CV_RGB(0, 0, 255), 5, 8, 0);
-		cvPutText(bestimage, time.str().c_str(),cvPoint(5 * Pathptr[BestPath.Coor[i]][0]+5, 5 * Pathptr[BestPath.Coor[i]][1]+5), &font1, CV_RGB(0, 0, 0));
+		cvPutText(bestimage, time.str().c_str(), cvPoint(5 * Pathptr[BestPath.Coor[i]][0] + 5, 5 * Pathptr[BestPath.Coor[i]][1] + 5), &font1, CV_RGB(0, 0, 0));
 		time.str("");
 	}
-	time << SIZE-1;
-	cvPutText(bestimage, time.str().c_str(), cvPoint(5 * Pathptr[BestPath.Coor[SIZE - 1]][0]+5, 5 * Pathptr[BestPath.Coor[SIZE - 1]][1]+5), &font1, CV_RGB(0, 0, 0));
-	cvCircle(bestimage, cvPoint(5 * Pathptr[BestPath.Coor[SIZE-1]][0], 5 * Pathptr[BestPath.Coor[SIZE-1]][1]), 1, CV_RGB(0, 0, 255), 5, 8, 0);
+	time << SIZE - 1;
+	cvPutText(bestimage, time.str().c_str(), cvPoint(5 * Pathptr[BestPath.Coor[SIZE - 1]][0] + 5, 5 * Pathptr[BestPath.Coor[SIZE - 1]][1] + 5), &font1, CV_RGB(0, 0, 0));
+	cvCircle(bestimage, cvPoint(5 * Pathptr[BestPath.Coor[SIZE - 1]][0], 5 * Pathptr[BestPath.Coor[SIZE - 1]][1]), 1, CV_RGB(0, 0, 255), 5, 8, 0);
 	cvLine(bestimage, cvPoint(5 * Pathptr[BestPath.Coor[0]][0], 5 * Pathptr[BestPath.Coor[0]][1]),
 		cvPoint(5 * Pathptr[BestPath.Coor[SIZE - 1]][0], 5 * Pathptr[BestPath.Coor[SIZE - 1]][1]), CV_RGB(0, 0, 0), 1, CV_AA, 0);
 
@@ -379,21 +407,12 @@ int main(int argc, char** argv) {
 
 	cout << "開始基因演替" << endl;
 	for (int i = 0; i<GENERATION; i++) {
-		InitOpencvConfig();
 		//cout << i << "代\n";
 		ReproductionRWS();
 		CrossoverPMX();
 		Mutation();
 		UpdateBestPath(i);
 
-		//Drawd  Map--------------------------------------
-
-		drawBest(i);
-		upload = cvCloneImage(bestimage);
-		cvShowImage("Path", upload);
-		cvReleaseImage(&bestimage);
-		cvReleaseImage(&upload);
-		cvWaitKey(100);
 	}
 
 

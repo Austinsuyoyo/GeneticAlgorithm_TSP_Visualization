@@ -10,10 +10,10 @@ using namespace std;
 #include <opencv2/opencv.hpp>
 //=========================================================================
 
-#define POPULATION 100					//母體數量
+#define POPULATION 50					//母體數量
 #define PC 0.82							//交配機率Prob Crossover
-#define PM 0.1							//突變機率Prob Mutation
-#define GENERATION 20000				//代數
+#define PM 0.5							//突變機率Prob Mutation
+#define GENERATION 1000000				//代數
 #define SIZE 30
 #define CHOOSE_PATH 
 
