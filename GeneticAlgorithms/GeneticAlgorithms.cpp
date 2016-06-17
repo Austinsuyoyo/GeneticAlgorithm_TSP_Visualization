@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GeneticAlgorithms.h"
-int(*Pathptr)[2] = oliver30;	   //選擇路徑
+int(*Pathptr)[2] = Eil51;	   //選擇路徑
 //===================================================================================================
 								   //定義路徑
 typedef struct TagPathA {
