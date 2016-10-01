@@ -1,4 +1,7 @@
-﻿# GeneticAlgorithm_TSP_Visualization
+# GeneticAlgorithm_TSP_Visualization
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](https://raw.githubusercontent.com/Austinsuyoyo/GeneticAlgorithm_TSP_Visualization/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/Austinsuyoyo/GeneticAlgorithm_TSP_Visualization.svg?style=plastic)](https://github.com/Austinsuyoyo/GeneticAlgorithm_TSP_Visualization/stargazers)
+
 Genetic Algorithms Visualization in C++
 ## Build Enviroment
  - Visual Studio 2015
