@@ -6,7 +6,7 @@ SET(OpenCV_STATIC OFF)
 # Find OpenCV, you may need to set OpenCV_DIR variable
 # to the absolute path to the directory containing OpenCVConfig.cmake file
 # via the command line or GUI
-FIND_PACKAGE( OpenCV REQUIRED )
+FIND_PACKAGE( OPENCV REQUIRED )
 
 # If the package has been found, several variables will
 # be set, you can find the full list with descriptions
